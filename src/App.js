@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import Track from "./components/Track";
 
 //data
-
+import data from "./data/times.json"
 
 class App extends Component {
 	constructor(props) {
@@ -12,15 +12,10 @@ class App extends Component {
 		
 		this.state = {
 			counter: 3,
-			tempPts: [
-				[480, 200],
-				[580, 400],
-				[680, 100],
-				[780, 300],
-				[180, 300],
-				[280, 100],
-				[380, 400]
-			  ],
+			data,
+			animationCtrl: {
+				running: false,
+			},
 		};
 	}
 	render() {
@@ -33,7 +28,7 @@ class App extends Component {
 					To get started, edit <code>src/App.js</code> and save to reload.
 				</p>
 
-				<Track data = { this.setState.tempPts } />
+				<Track data = { this.setState.data } animationCtrl = { this.state.animationCtrl } />
 			</div>
 		);
 	}

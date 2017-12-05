@@ -24,25 +24,13 @@ class Track extends Component {
 		// 	[280, 100],
 		// 	[380, 400]
 		//   ]
-		  
-
-		//   var svg = d3.select("#circleSVG");
-		  
-		//   //d3v4 line generator that uses a cardinal-closed curve   
-		//   var path = svg.append("path")
-		// 	  .data([points])
-		//   	.classed("trackPath", true)
-		// 	  .attr("d", d3.line().curve(d3.curveCardinalClosed));
-	
 
 		var svg = d3.select("#trackSVG");
 		
-		//d3v4 line generator that uses a cardinal-closed curve   
+		//select path   
 		var path = svg.select("path")
 			// .data([points])
-			.classed("trackPath", true)
-			// .attr("d", d3.line().curve(d3.curveCardinalClosed))
-			;
+			.classed("trackPath", true);
 
 			  
 		console.log('path', path);
@@ -53,20 +41,25 @@ class Track extends Component {
 		// 	.enter().append("circle")
 		// 	  .attr("r", 4)
 		// 	  .attr("transform", function(d) { return "translate(" + d + ")"; });
-		  
+
+var whiteblue = d3.interpolateRgb("#eee", "steelblue"),
+    blueorange = d3.interpolateRgb("steelblue", "orange"),
+	orangewhite = d3.interpolateRgb("orange", "#eee");
+	
 		  var circle = svg.append("circle")
 		  	.classed("trackPt", true)
 			  .attr("r", 13)
-			//   .attr("transform", "translate(" + points[0] + ")");
-			  .attr("transform", "translate(" + -500/3 + ")");//find out why this is -height/3
+			  .attr("transform", "translate(" + -500/3 + ")");
 		  
+// console.log('path nodes', path.node())
 		  transition();
 		  
 		  function transition() {
-// console.log('path nodes', path.node())
+			// circle.style('fill', 'blue')
 			circle.transition()
-				.duration(1000)
+				.duration(3000)
 				.ease(d3.easeLinear)
+				.styleTween("fill", function() { return orangewhite; })
 				.attrTween("transform", translateAlong(path.node()))
 				.on("end", transition);
 		  }
@@ -76,13 +69,11 @@ class Track extends Component {
 		  // is fast for the second and third quarters and is slow again in the final quarter
 		  // This is normal behavior for d3.transition()
 		  function translateAlong(path) {
-			var l = path.getTotalLength() * 2;
+			var l = path.getTotalLength();
 			return function(d, i, a) {
 			  return function(t) {
-
 				var p = path.getPointAtLength(t * l);
 				return "translate(" + p.x + "," + p.y + ")";
-				// //logic for reversing?
 				// if(t* l >= l/2){
 				// 	var p = path.getPointAtLength(l - (t*l))
 				// } else {
