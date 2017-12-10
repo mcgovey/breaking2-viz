@@ -12,13 +12,23 @@ class App extends Component {
 		
 		this.state = {
 			counter: 3,
-			data,
-			animationCtrl: {
-				running: false,
+			data	: {
+				kipSplits		: data.map( ( lap ) => {
+					return lap.TotalSplitSeconds;
+				}),
+				targetSplits	: data.map( ( lap ) => {
+					return lap.TargetSplitSeconds;
+				}),
+			},
+			animationCtrl	: {
+				isRunning	: false,
+				kipLap		: 0,
+				targetLap	: 0,
 			},
 		};
 	}
 	render() {
+console.log('data', data );
 		return (
 			<div className="App">
 				<header className="App-header">
@@ -28,7 +38,7 @@ class App extends Component {
 					To get started, edit <code>src/App.js</code> and save to reload.
 				</p>
 
-				<Track data = { this.setState.data } animationCtrl = { this.state.animationCtrl } />
+				<Track data = { this.state.data } animationCtrl = { this.state.animationCtrl } />
 			</div>
 		);
 	}
